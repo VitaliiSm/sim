@@ -1,0 +1,6 @@
+From application root run...
+
+docker-compose build // Download all Image files
+docker-compose up // Start running containers
+docker-compose exec availability-checker-app {command} // Run any commands you need
+

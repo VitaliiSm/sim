@@ -1,0 +1,67 @@
+version: '3.8'
+services:
+
+  # The Application
+  training-app:
+    container_name: training-app
+    image: training-app
+    networks:
+      - training
+    build:
+      context: ./
+      dockerfile: docker/application/Dockerfile
+    working_dir: /var/www
+    volumes:
+        - ./:/var/www
+    ports:
+      - 9015:9000
+    depends_on:
+      - training-db
+    environment:
+      - "COMPOSER_MEMORY_LIMIT=-1"
+
+  # The Web Server
+  training-web:
+    container_name: training-web
+    image: training-web
+    networks:
+      - training
+    build:
+      context: ./
+      dockerfile: docker/web/Dockerfile
+    working_dir: /var/www
+    depends_on:
+      - training-app
+    volumes:
+      - ./:/var/www/
+    ports:
+      - '8089:80'
+
+  # The Database
+  training-db:
+    container_name: training-db
+    networks:
+      - training
+    image: mysql:5.7
+    volumes:
+      - training-db:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=1"
+      - "MYSQL_USER=roo"
+      - "MYSQL_PASSWORD=1"
+      - "MYSQL_DATABASE=mob"
+    ports:
+      - '3306:3306'
+
+  composer:
+    image: composer:latest
+    command: install --ignore-platform-reqs --no-scripts
+    volumes:
+      - $PWD:/app
+
+volumes:
+  training-db:
+
+networks:
+  training:
+    name: training
