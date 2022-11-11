@@ -6,14 +6,14 @@ use App\Models\Account;
 use App\Services\SmsService;
 use Illuminate\Console\Command;
 
-class SendSmsCommand extends Command
+class SendSmsAllCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'send:sms';
+    protected $signature = 'send:all';
 
     /**
      * The console command description.
@@ -35,10 +35,7 @@ class SendSmsCommand extends Command
      */
     public function handle()
     {
-        $email = $this->anticipate('What is your email?', Account::get()->pluck('email'));
-        $account = Account::where('email', $email)->with('activeSimCards')->first();
-        $this->service->processAccount($account);
-
+        $this->service->processAccounts();
         return Command::SUCCESS;
     }
 

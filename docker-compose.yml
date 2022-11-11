@@ -3,7 +3,7 @@ services:
 
   # The Application
   training-app:
-    container_name: training-app
+    container_name: training-app-2
     image: training-app
     networks:
       - training
@@ -22,7 +22,7 @@ services:
 
   # The Web Server
   training-web:
-    container_name: training-web
+    container_name: training-web-2
     image: training-web
     networks:
       - training
@@ -39,7 +39,7 @@ services:
 
   # The Database
   training-db:
-    container_name: training-db
+    container_name: training-db-2
     networks:
       - training
     image: mysql:5.7

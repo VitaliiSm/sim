@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sim_card', function (Blueprint $table) {
+        Schema::create('sim_cards', function (Blueprint $table) {
             $table->id();
-            $table->integer('account_id');
+            $table->foreignId('account_id')->constrained();
             $table->integer('iccid');
             $table->boolean('is_active');
             $table->integer('imei');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sim_card');
+        Schema::dropIfExists('sim_cards');
     }
 };
